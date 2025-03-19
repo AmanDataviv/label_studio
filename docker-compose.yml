@@ -1,0 +1,21 @@
+services:
+  label-studio:
+    build: .
+    container_name: ls_container
+    networks:
+      - label_studio_network  
+
+  label_studio_nginx:
+    image: nginx:latest
+    container_name: ls_nginx_container
+    ports:
+      - "80:80"
+    volumes:
+      - ./nginx:/etc/nginx/conf.d
+    depends_on:
+      - label-studio
+    networks:
+      - label_studio_network
+
+networks:
+  label_studio_network:
